@@ -120,28 +120,37 @@ const PrintProcess = () => {
         console.error("Gagal memperbarui transaksi:", error);
       }
     };
-    window.snap.embed(token, {
-      embedId: "snap-embed-container",
-      onSuccess: async (result: any) => {
-        await updateTransaction("paid");
-        console.log("Pembayaran berhasil:", result);
-        alert("Pembayaran berhasil!");
-        sessionStorage.clear();
-      },
-      onPending: (result: any) => {
-        console.log("Menunggu pembayaran:", result);
-        alert("Pembayaran masih dalam proses.");
-      },
-      onError: (result: any) => {
-        console.error("Pembayaran gagal:", result);
-        alert("Pembayaran gagal. Silakan coba lagi.");
-      },
-      onClose: () => {
-        console.warn("Popup ditutup tanpa menyelesaikan pembayaran.");
-        alert("Anda belum menyelesaikan pembayaran.");
-      },
-    });
-  };
+    if (window.snap && window.snap.embed) {
+      // Check if snap.embed is available
+      window.snap.embed(token, {
+        embedId: "snap-embed-container",
+        // Removed `:any` here. TypeScript infers the type from the global declaration.
+        onSuccess: async (result) => {
+          await updateTransaction("paid");
+          console.log("Pembayaran berhasil:", result);
+          alert("Pembayaran berhasil!");
+          sessionStorage.clear();
+        },
+        // Removed `:any` here. TypeScript infers the type from the global declaration.
+        onPending: (result) => {
+          console.log("Menunggu pembayaran:", result);
+          alert("Pembayaran masih dalam proses.");
+        },
+        // Removed `:any` here. TypeScript infers the type from the global declaration.
+        onError: (result) => {
+          console.error("Pembayaran gagal:", result);
+          alert("Pembayaran gagal. Silakan coba lagi.");
+        },
+        onClose: () => {
+          console.warn("Popup ditutup tanpa menyelesaikan pembayaran.");
+          alert("Anda belum menyelesaikan pembayaran.");
+        },
+      });
+    } else {
+      console.error("Midtrans Snap script not loaded.");
+      alert("Payment system not available. Please try again later.");
+    }
+  }
   return (
     <div className="mt-4">
       <h1 className="text-2xl font-bold mb-4">PrintEZ</h1>

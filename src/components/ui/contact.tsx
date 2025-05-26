@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-
+import Image from "next/image";
 const Contact = () => {
   return (
     <div>
@@ -16,7 +16,7 @@ const Contact = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
             <div className="bg-white rounded-lg p-6 shadow hover:shadow-md transition animate-slide-up">
               <div className="mb-4 text-2xl">
-                <img
+                <Image
                   src="/instagram-logo-240 (4).png"
                   alt="Instagram"
                   className="w-12 h-12 object-contain mx-auto"
@@ -36,7 +36,7 @@ const Contact = () => {
 
             <div className="bg-white rounded-lg p-6 shadow hover:shadow-md transition animate-slide-up">
               <div className="mb-4 text-2xl">
-                <img
+                <Image
                   src="/whatsapp-logo-240 (1).png"
                   alt="WhatsApp"
                   className="w-12 h-12 object-contain mx-auto"
@@ -56,7 +56,7 @@ const Contact = () => {
 
             <div className="bg-white rounded-lg p-6 shadow hover:shadow-md transition animate-slide-up">
               <div className="mb-4 text-2xl">
-                <img
+                <Image
                   src="/Line.png"
                   alt="Line"
                   className="w-12 h-12 object-contain mx-auto"
