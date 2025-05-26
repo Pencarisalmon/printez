@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import Image from "next/image";
 const AboutPage = () => {
   return (
     <div id="about">
@@ -8,7 +9,7 @@ const AboutPage = () => {
         <div className="flex flex-wrap justify-center gap-8">
           <div className="w-44 sm:w-52 mt-0 group animate-slide-up">
             <div className="relative rounded-xl overflow-hidden shadow-md h-80 w-full">
-              <img
+              <Image
                 src="/ares.jpg"
                 alt="Ares"
                 className="object-cover w-full h-full"
@@ -26,7 +27,7 @@ const AboutPage = () => {
 
           <div className="w-44 sm:w-52 mt-12 group animate-slide-up">
             <div className="relative rounded-xl overflow-hidden shadow-md h-80 w-full">
-              <img
+              <Image
                 src="/ridan.jpg"
                 alt="Ridan"
                 className="object-cover w-full h-full"
@@ -42,7 +43,7 @@ const AboutPage = () => {
 
           <div className="w-44 sm:w-52 mt-6 group animate-slide-up">
             <div className="relative rounded-xl overflow-hidden shadow-md h-80 w-full">
-              <img
+              <Image
                 src="/seno.jpg"
                 alt="Seno"
                 className="object-cover w-full h-full"
@@ -58,7 +59,7 @@ const AboutPage = () => {
 
           <div className="w-44 sm:w-52 mt-12 group animate-slide-up">
             <div className="relative rounded-xl overflow-hidden shadow-md h-80 w-full">
-              <img
+              <Image
                 src="/haikal.jpg"
                 alt="Hekal"
                 className="object-cover w-full h-full"
@@ -74,7 +75,7 @@ const AboutPage = () => {
 
           <div className="w-44 sm:w-52 mt-0 group animate-slide-up">
             <div className="relative rounded-xl overflow-hidden shadow-md h-80 w-full">
-              <img
+              <Image
                 src="/iqbal.jpg"
                 alt="Iqbal"
                 className="object-cover w-full h-full"

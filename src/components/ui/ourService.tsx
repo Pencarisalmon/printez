@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import Image from "next/image";
 const OurService = () => {
   return (
     <div>
@@ -9,7 +10,7 @@ const OurService = () => {
         <h1 className="text-3xl md:text-4xl font-bold mb-12">Layanan Kami</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
           <div className="bg-white p-6 rounded-2xl shadow-md text-left hover:shadow-lg transition animate-slide-up">
-            <img
+            <Image
               src="/file-pdf-solid-240.png"
               alt="Icon"
               className="w-12 h-12 mb-4"
@@ -23,7 +24,7 @@ const OurService = () => {
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow-md text-left hover:shadow-lg transition animate-slide-up">
-            <img
+            <Image
               src="/color-fill-solid-240.png"
               alt="Icon"
               className="w-12 h-12 mb-4"
@@ -35,7 +36,7 @@ const OurService = () => {
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow-md text-left hover:shadow-lg transition animate-slide-up">
-            <img
+            <Image
               src="/package-regular-240.png"
               alt="Icon"
               className="w-12 h-12 mb-4"
@@ -47,7 +48,7 @@ const OurService = () => {
           </div>
 
           <div className="bg-white p-6 rounded-2xl shadow-md text-left hover:shadow-lg transition animate-slide-up">
-            <img
+            <Image
               src="/wallet-alt-solid-240.png"
               alt="Icon"
               className="w-12 h-12 mb-4"

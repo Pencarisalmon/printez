@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import Script from 'next/script'; 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,10 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <script
-          src="https://app.sandbox.midtrans.com/snap/snap.js"
-          data-client-key="SB-Mid-client-B6hBtrqpHcqkDcse"
-        ></script>
+      <Script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-Vxcxv-rrp6GWWan3"/>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

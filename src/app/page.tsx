@@ -32,7 +32,7 @@ export default function Home() {
 
         {/* Image (Hidden on Mobile) */}
         <div className="hidden md:flex w-full md:w-1/2 justify-center animate-slide-left">
-          <img
+          <Image
             src="/hero.svg"
             alt="Ilustrasi jasa print"
             className="w-[450px] h-auto"

@@ -61,6 +61,7 @@ export async function POST(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    return new Response("Internal server error", { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return new Response(`Internal server error : ${errorMessage}`, { status: 500 });
   }
 }

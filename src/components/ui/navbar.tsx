@@ -2,6 +2,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const Navbar = () => {
   const router = useRouter();
@@ -17,20 +19,20 @@ const Navbar = () => {
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => router.push("/")}
         >
-          <img src="/PrintEz.svg" alt="logo" width={89} height={45} />
+          <Image src="/PrintEz.svg" alt="logo" width={89} height={45} />
         </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-8">
-          <a href="/#about" className="text-gray-600 hover:text-black">
+          <Link href="/#about" className="text-gray-600 hover:text-black">
             Tentang Kami
-          </a>
-          <a href="/#services" className="text-gray-600 hover:text-black">
+          </Link>
+          <Link href="/#services" className="text-gray-600 hover:text-black">
             Layanan
-          </a>
-          <a href="/#contact" className="text-gray-600 hover:text-black">
+          </Link>
+          <Link href="/#contact" className="text-gray-600 hover:text-black">
             Contact
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Hamburger */}
@@ -44,27 +46,27 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden flex flex-col items-start px-6 pb-4 gap-4 bg-white border-t border-gray-200">
-          <a
+          <Link
             href="/#about"
             onClick={() => setIsOpen(false)}
             className="text-gray-600 hover:text-black"
           >
             Tentang Kami
-          </a>
-          <a
+          </Link>
+          <Link
             href="/#services"
             onClick={() => setIsOpen(false)}
             className="text-gray-600 hover:text-black"
           >
             Layanan
-          </a>
-          <a
+          </Link>
+          <Link
             href="/#contact"
             onClick={() => setIsOpen(false)}
             className="text-gray-600 hover:text-black"
           >
             Contact
-          </a>
+          </Link>
         </div>
       )}
     </nav>

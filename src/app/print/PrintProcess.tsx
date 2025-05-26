@@ -1,24 +1,34 @@
 "use client";
 import { useState } from "react";
 
+interface MidtransSnapResult {
+  transaction_status?: string;
+  order_id?: string;
+  payment_type?: string;
+  gross_amount?: string;
+  status_code?: string;
+  status_message?: string;
+  fraud_status?: string;
+  transaction_id?: string;
+
+}
 declare global {
   interface Window {
     snap: {
-      embed: (
-        token: string,
-        options: {
-          embedId: string;
-          onSuccess?: (result: any) => void;
-          onPending?: (result: any) => void;
-          onError?: (result: any) => void;
-          onClose?: () => void;
-        }
-      ) => void;
+      embed: (token: string, options: {
+        embedId: string;
+        // Use the defined interface for the result parameter instead of any
+        onSuccess?: (result: MidtransSnapResult) => void;
+        onPending?: (result: MidtransSnapResult) => void;
+        onError?: (result: MidtransSnapResult) => void;
+        onClose?: () => void;
+      }) => void;
     };
   }
 }
 import PrintForm from "@/components/ui/printForm";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import axios from "axios";
 
 const PrintProcess = () => {
@@ -204,7 +214,7 @@ const PrintProcess = () => {
               {preview ? (
                 <div className="mt-4">
                   {file?.type.includes("image") ? (
-                    <img
+                    <Image
                       src={preview}
                       alt="Preview"
                       className="w-40 h-auto border p-2"
