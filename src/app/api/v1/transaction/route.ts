@@ -2,7 +2,7 @@ import { supabase } from "@/lib/db";
 import { MidtransClient } from "midtrans-node-client";
 
 const snap = new MidtransClient.Snap({
-  isProduction: false,
+  isProduction: true,
   serverKey: process.env.NEXT_PUBLIC_MIDTRANS_SERVER_KEY as string,
 });
 
