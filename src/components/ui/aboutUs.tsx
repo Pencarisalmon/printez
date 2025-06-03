@@ -28,7 +28,7 @@ const AboutPage = () => {
           <div className="w-44 sm:w-52 mt-12 group animate-slide-up">
             <div className="relative rounded-xl overflow-hidden shadow-md h-80 w-full">
               <Image
-                src="/ridan.jpg"
+                src="/rizky.jpg"
                 alt="Ridan"
                 className="object-cover w-full h-full"
               />
