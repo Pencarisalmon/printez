@@ -10,19 +10,21 @@ interface MidtransSnapResult {
   status_message?: string;
   fraud_status?: string;
   transaction_id?: string;
-
 }
 declare global {
   interface Window {
     snap: {
-      embed: (token: string, options: {
-        embedId: string;
-        // Use the defined interface for the result parameter instead of any
-        onSuccess?: (result: MidtransSnapResult) => void;
-        onPending?: (result: MidtransSnapResult) => void;
-        onError?: (result: MidtransSnapResult) => void;
-        onClose?: () => void;
-      }) => void;
+      embed: (
+        token: string,
+        options: {
+          embedId: string;
+          // Use the defined interface for the result parameter instead of any
+          onSuccess?: (result: MidtransSnapResult) => void;
+          onPending?: (result: MidtransSnapResult) => void;
+          onError?: (result: MidtransSnapResult) => void;
+          onClose?: () => void;
+        }
+      ) => void;
     };
   }
 }
@@ -35,6 +37,7 @@ const PrintProcess = () => {
   const [step, setStep] = useState(1);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [showNoRek, setShowNoRek] = useState(false);
   const [totalHarga, setTotalHarga] = useState(0)
   const [hargaPrint, setHargaPrint] = useState(0)
@@ -181,7 +184,7 @@ const PrintProcess = () => {
       console.error("Midtrans Snap script not loaded.");
       alert("Payment system not available. Please try again later.");
     }
-  }
+  };
   return (
     <div className="mt-4">
       <h1 className="text-2xl font-bold mb-4">PrintEZ</h1>
@@ -273,8 +276,11 @@ const PrintProcess = () => {
               {file && (
                 <Button
                   className="bg-blue-950"
+                  disabled={isLoading}
                   onClick={async () => {
+                    setIsLoading(true);
                     await uploadFileToServer();
+                    setIsLoading(false);
                     setStep(2);
                   }}
                 >
@@ -306,7 +312,9 @@ const PrintProcess = () => {
                 <Button
                   className="bg-blue-950" //onClick={() => alert("Payment Successful!")}
                   onClick={async () => {
+                    setIsLoading(true);
                     await getPayment();
+                    setIsLoading(false);
                     setShowNoRek(true);
                   }}>
                   Konfirmasi Pembayaran
