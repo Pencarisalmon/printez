@@ -75,9 +75,10 @@ const apiUrl = "/api/v1/form";
 type PrintFormProps = {
   onNext: () => void; // Fungsi untuk pindah ke step 3
   onBack: () => void;
+  formOnSubmit: (data: string) => void; 
 };
 
-const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack }) => {
+const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack, formOnSubmit }: PrintFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -91,7 +92,7 @@ const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack }) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { username, phoneNumber, type, place, dob, time } = values;
-    sessionStorage.setItem("printType", type);
+    formOnSubmit(type)
     try {
       // Send form data to the API
       const { data } = await axios.post(apiUrl, {
