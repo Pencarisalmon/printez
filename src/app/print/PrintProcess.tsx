@@ -36,6 +36,7 @@ const PrintProcess = () => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [showNoRek, setShowNoRek] = useState(false);
+  const [pageCount, setPageCount] = useState(0);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -273,14 +274,14 @@ const PrintProcess = () => {
                 <p>
                   Print {sessionStorage.getItem("printType")} : Rp.{" "}
                   {
-                    sessionStorage.getItem("printType") === "colored" ?
+                    sessionStorage.getItem("printType") === "Hitam-putih" ?
                       1000 * Number(sessionStorage.getItem("pageCount"))
                       : 1500 * Number(sessionStorage.getItem("pageCount"))
                   }
                 </p>
 
                 <p>Biaya Admin : Rp. 1000</p>
-                <p>Total Harga : Rp. {" "}{10000 * Number(sessionStorage.getItem("pageCount")) + 1000}</p>
+                <p>Total Harga : Rp. {" "}{1000 * Number(sessionStorage.getItem("pageCount")) + 1000}</p>
               </div>
 
               <div className="flex gap-4">
