@@ -12,7 +12,9 @@ const AboutPage = () => {
               <Image
                 src="/ares.jpg"
                 alt="Ares"
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                 <div className="text-white text-left p-4">
@@ -30,7 +32,9 @@ const AboutPage = () => {
               <Image
                 src="/rizky.jpg"
                 alt="Ridan"
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                 <div className="text-white text-left p-4">
@@ -46,7 +50,9 @@ const AboutPage = () => {
               <Image
                 src="/seno.jpg"
                 alt="Seno"
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                 <div className="text-white text-left p-4">
@@ -62,7 +68,9 @@ const AboutPage = () => {
               <Image
                 src="/haikal.jpg"
                 alt="Hekal"
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                 <div className="text-white text-left p-4">
@@ -78,7 +86,9 @@ const AboutPage = () => {
               <Image
                 src="/iqbal.jpg"
                 alt="Iqbal"
-                className="object-cover w-full h-full"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                 <div className="text-white text-left p-4">
