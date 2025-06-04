@@ -71,7 +71,7 @@ export async function POST(req: Request) {
         order_id: idForms,
         gross_amount: hargaPerHalaman,
       },
-      enabled_payments: ["echannel"],
+      enabled_payments: ["other_qris"],
     };
 
     let token: string;
