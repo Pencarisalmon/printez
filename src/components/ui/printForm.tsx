@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { z } from "zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -78,6 +79,7 @@ type PrintFormProps = {
 };
 
 const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -90,10 +92,10 @@ const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack }) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     const { username, phoneNumber, type, place, dob, time } = values;
     sessionStorage.setItem("printType", type);
     try {
-      // Send form data to the API
       const { data } = await axios.post(apiUrl, {
         username,
         phoneNumber,
@@ -103,17 +105,15 @@ const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack }) => {
         time,
       });
 
-      // Handle successful response
       console.log("Form submitted successfully:", data);
       sessionStorage.setItem("idForm", data.dataInsert.id);
-      debugger;
+      setIsLoading(false);
       onNext();
     } catch (error) {
-      // Handle errors
       console.error("Error submitting form:", error);
       alert("Failed to submit form. Please try again.");
+      setIsLoading(false);
     }
-    debugger;
   }
 
   return (
@@ -125,6 +125,7 @@ const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack }) => {
           </h1>
           <Button
             type="reset"
+            disabled={isLoading}
             onClick={onBack}
             className="bg-white text-blue-950 shadow-none hover:bg-white"
           >
