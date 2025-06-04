@@ -13,6 +13,8 @@ const OurService = () => {
             <Image
               src="/file-pdf-solid-240.png"
               alt="Icon"
+              width={48}
+              height={48}
               className="w-12 h-12 mb-4"
             />
             <h2 className="text-xl font-semibold mb-2">
@@ -27,6 +29,8 @@ const OurService = () => {
             <Image
               src="/color-fill-solid-240.png"
               alt="Icon"
+              width={48}
+              height={48}
               className="w-12 h-12 mb-4"
             />
             <h2 className="text-xl font-semibold mb-2">
@@ -39,6 +43,8 @@ const OurService = () => {
             <Image
               src="/package-regular-240.png"
               alt="Icon"
+              width={48}
+              height={48}
               className="w-12 h-12 mb-4"
             />
             <h2 className="text-xl font-semibold mb-2">
@@ -51,6 +57,8 @@ const OurService = () => {
             <Image
               src="/wallet-alt-solid-240.png"
               alt="Icon"
+              width={48}
+              height={48}
               className="w-12 h-12 mb-4"
             />
             <h2 className="text-xl font-semibold mb-2">

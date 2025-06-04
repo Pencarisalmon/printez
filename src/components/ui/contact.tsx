@@ -19,6 +19,8 @@ const Contact = () => {
                 <Image
                   src="/instagram-logo-240 (4).png"
                   alt="Instagram"
+                  width={48}
+                  height={48}
                   className="w-12 h-12 object-contain mx-auto"
                 />
               </div>
@@ -39,6 +41,8 @@ const Contact = () => {
                 <Image
                   src="/whatsapp-logo-240 (1).png"
                   alt="WhatsApp"
+                  width={48}
+                  height={48}
                   className="w-12 h-12 object-contain mx-auto"
                 />
               </div>
@@ -59,6 +63,8 @@ const Contact = () => {
                 <Image
                   src="/Line.png"
                   alt="Line"
+                  width={48}
+                  height={48}
                   className="w-12 h-12 object-contain mx-auto"
                 />
               </div>

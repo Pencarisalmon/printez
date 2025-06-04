@@ -35,6 +35,8 @@ export default function Home() {
           <Image
             src="/hero.svg"
             alt="Ilustrasi jasa print"
+            width={735} 
+            height={684} 
             className="w-[450px] h-auto"
           />
         </div>
