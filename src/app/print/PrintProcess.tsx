@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface MidtransSnapResult {
   transaction_status?: string;
@@ -39,6 +39,30 @@ const PrintProcess = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showNoRek, setShowNoRek] = useState(false);
+  const [totalHarga, setTotalHarga] = useState(0)
+  const [hargaPrint, setHargaPrint] = useState(0)
+  const [pageCount, setPageCount] = useState(0)
+  const [printType, setPrintType] = useState<string>("")
+
+  useEffect(() => {
+  let harga = 0;
+
+  if (printType === "Berwarna") {
+    harga = pageCount * 1500;
+  } else if (printType === "Hitam-putih") {
+    harga = pageCount * 1000;
+  }
+
+  setHargaPrint(harga);
+  }, [pageCount, printType]);
+
+  useEffect(() => {
+    setTotalHarga(hargaPrint + 1000); 
+  }, [hargaPrint]);
+
+  const handleFormSubmit = (data: string) => {
+    setPrintType(data);
+  };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -77,8 +101,9 @@ const PrintProcess = () => {
     try {
       const apiUrl = "/api/v1/upload";
       const { data: result } = await axios.post(apiUrl, formData);
-      const fileId = result.data.id;
-      const pageCount = result.pageCount;
+      const fileId = result.data.id; 
+      setPageCount(result.pageCount)
+      setPrintType(sessionStorage.getItem("printType") || "")
       console.log("File ID:", fileId);
       sessionStorage.setItem("idFiles", fileId);
       sessionStorage.setItem("pageCount", pageCount);
@@ -270,7 +295,7 @@ const PrintProcess = () => {
           )}
 
           {step === 2 && (
-            <PrintForm onNext={() => setStep(3)} onBack={() => setStep(1)} />
+            <PrintForm onNext={() => setStep(3)} onBack={() => setStep(1)} formOnSubmit={handleFormSubmit}/>
           )}
 
           {step === 3 && (
@@ -278,21 +303,13 @@ const PrintProcess = () => {
               <h2 className="text-2xl font-bold text-gray-900 mb-5">
                 Pembayaran
               </h2>
-
-              <div id="detailPesanan">
-                <h3>Rincian Harga</h3>
-                <p>
-                  Print {sessionStorage.getItem("printType")} : Rp.{" "}
-                  {sessionStorage.getItem("printType") === "colored"
-                    ? 1000 * Number(sessionStorage.getItem("pageCount"))
-                    : 1500 * Number(sessionStorage.getItem("pageCount"))}
-                </p>
-
-                <p>Biaya Admin : Rp. 1000</p>
-                <p>
-                  Total Harga : Rp.{" "}
-                  {10000 * Number(sessionStorage.getItem("pageCount")) + 1000}
-                </p>
+              
+              <div id="detailPesanan" className="mb-5">
+                <h3 className="font-bold text-gray-900">Rincian Harga</h3>
+                <p className="ml-3">
+                  Print {sessionStorage.getItem("printType")} : Rp.{" "}{hargaPrint}</p>
+                <p className="ml-3">Biaya Admin : Rp. 1000</p>
+                <p className="ml-3">Total Harga : Rp. {" "}{totalHarga}</p>
               </div>
 
               <div className="flex gap-4">
@@ -303,8 +320,7 @@ const PrintProcess = () => {
                     await getPayment();
                     setIsLoading(false);
                     setShowNoRek(true);
-                  }}
-                >
+                  }}>
                   Konfirmasi Pembayaran
                 </Button>
 
@@ -314,18 +330,29 @@ const PrintProcess = () => {
               </div>
 
               {showNoRek && (
-                <div id="no-rek-container" className="flex">
-                  <Image
-                    src="/mandiri_logo.png"
-                    alt="No Rek"
-                    width={100}
-                    height={50}
-                  />
-                  <div>
-                    <p>1270011710686</p>
-                    <p>A.N. Riyan Suseno</p>
+
+                <>
+                  <div id="no-rek-container" className="flex mt-7">
+                    <Image src="/mandiri_logo.png" alt="No Rek" width={150} height={50} />
+                    <div className="ml-5  ">
+                      <p>1270011710686</p>
+                      <p className="text-base font-bold text-gray-900">A.N. Riyan Suseno</p>
+                    </div>
                   </div>
-                </div>
+                  <p className="mt-3 text-base">Kirim bukti pembayaran ke nomor dibawah: </p>
+                  <p className="text-sm">085888686197 atau klik tombol di bawah</p>
+                  <Button
+                    className="bg-blue-950 mt-3"
+                    onClick={() => {
+                      const nomor = "6285888686197"; // Ganti dengan nomor WhatsApp kamu (pakai kode negara, tanpa +)
+                      const pesan = encodeURIComponent("Halo, saya ingin mengirim bukti pembayaran.");
+                      window.open(`https://wa.me/${nomor}?text=${pesan}`, "_blank");
+                    }}
+                  >
+                    Kirim Bukti Pembayaran
+                  </Button>
+
+                </>
               )}
 
               <div
