@@ -269,9 +269,9 @@ const PrintProcess = () => {
                 Pembayaran
               </h2>
 
-              <div id="detailPesanan">
-                <h3>Rincian Harga</h3>
-                <p>
+              <div id="detailPesanan" className="mb-5">
+                <h3 className="font-bold text-gray-900">Rincian Harga</h3>
+                <p className="ml-3">
                   Print {sessionStorage.getItem("printType")} : Rp.{" "}
                   {
                     sessionStorage.getItem("printType") === "Hitam-putih" ?
@@ -280,8 +280,8 @@ const PrintProcess = () => {
                   }
                 </p>
 
-                <p>Biaya Admin : Rp. 1000</p>
-                <p>Total Harga : Rp. {" "}{1000 * Number(sessionStorage.getItem("pageCount")) + 1000}</p>
+                <p className="ml-3">Biaya Admin : Rp. 1000</p>
+                <p className="ml-3">Total Harga : Rp. {" "}{1000 * Number(sessionStorage.getItem("pageCount")) + 1000}</p>
               </div>
 
               <div className="flex gap-4">
@@ -290,8 +290,7 @@ const PrintProcess = () => {
                   onClick={async () => {
                     await getPayment();
                     setShowNoRek(true);
-                  }}
-                >
+                  }}>
                   Konfirmasi Pembayaran
                 </Button>
 
@@ -301,13 +300,28 @@ const PrintProcess = () => {
               </div>
               
               {showNoRek && (
-                <div id="no-rek-container" className="flex">
-                  <Image src="/mandiri_logo.png" alt="No Rek" width={100} height={50} />
-                  <div>
-                    <p>1270011710686</p>
-                    <p>A.N. Riyan Suseno</p>
+                <>
+                  <div id="no-rek-container" className="flex mt-7">
+                    <Image src="/mandiri_logo.png" alt="No Rek" width={150} height={50} />
+                    <div className="ml-5  ">
+                      <p>1270011710686</p>
+                      <p className="text-base font-bold text-gray-900">A.N. Riyan Suseno</p>
+                    </div>
                   </div>
-                </div>
+                  <p className="mt-3 text-base">Kirim bukti pembayaran ke nomor dibawah: </p>
+                  <p className="text-sm">085888686197 atau klik tombol di bawah</p>
+                  <Button
+                    className="bg-blue-950 mt-3"
+                    onClick={() => {
+                      const nomor = "6285888686197"; // Ganti dengan nomor WhatsApp kamu (pakai kode negara, tanpa +)
+                      const pesan = encodeURIComponent("Halo, saya ingin mengirim bukti pembayaran.");
+                      window.open(`https://wa.me/${nomor}?text=${pesan}`, "_blank");
+                    }}
+                  >
+                    Kirim Bukti Pembayaran
+                  </Button>
+
+                </>
               )}
 
               <div
