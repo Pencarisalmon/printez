@@ -32,7 +32,7 @@ import PrintForm from "@/components/ui/printForm";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import axios from "axios";
-
+import toast, { Toaster } from "react-hot-toast";
 const PrintProcess = () => {
   const [step, setStep] = useState(1);
   const [file, setFile] = useState<File | null>(null);
@@ -77,12 +77,11 @@ const PrintProcess = () => {
     try {
       const apiUrl = "/api/v1/upload";
       const { data: result } = await axios.post(apiUrl, formData);
-      const fileId = result.data.id; 
+      const fileId = result.data.id;
       const pageCount = result.pageCount;
       console.log("File ID:", fileId);
       sessionStorage.setItem("idFiles", fileId);
       sessionStorage.setItem("pageCount", pageCount);
-      alert("File uploaded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("Failed to upload file. Please try again later.");
@@ -161,6 +160,7 @@ const PrintProcess = () => {
   };
   return (
     <div className="mt-4">
+      <Toaster />
       <h1 className="text-2xl font-bold mb-4">PrintEZ</h1>
 
       <div className="flex flex-col items-center">
@@ -253,7 +253,12 @@ const PrintProcess = () => {
                   disabled={isLoading}
                   onClick={async () => {
                     setIsLoading(true);
-                    await uploadFileToServer();
+                    await toast.promise(uploadFileToServer(), {
+                      loading: "Mengunggah file...",
+                      success: "File berhasil diunggah!",
+                      error: "Gagal mengunggah file.",
+                    });
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
                     setIsLoading(false);
                     setStep(2);
                   }}
@@ -278,15 +283,16 @@ const PrintProcess = () => {
                 <h3>Rincian Harga</h3>
                 <p>
                   Print {sessionStorage.getItem("printType")} : Rp.{" "}
-                  {
-                    sessionStorage.getItem("printType") === "colored" ?
-                      1000 * Number(sessionStorage.getItem("pageCount"))
-                      : 1500 * Number(sessionStorage.getItem("pageCount"))
-                  }
+                  {sessionStorage.getItem("printType") === "colored"
+                    ? 1000 * Number(sessionStorage.getItem("pageCount"))
+                    : 1500 * Number(sessionStorage.getItem("pageCount"))}
                 </p>
 
                 <p>Biaya Admin : Rp. 1000</p>
-                <p>Total Harga : Rp. {" "}{10000 * Number(sessionStorage.getItem("pageCount")) + 1000}</p>
+                <p>
+                  Total Harga : Rp.{" "}
+                  {10000 * Number(sessionStorage.getItem("pageCount")) + 1000}
+                </p>
               </div>
 
               <div className="flex gap-4">
@@ -306,10 +312,15 @@ const PrintProcess = () => {
                   Kembali
                 </Button>
               </div>
-              
+
               {showNoRek && (
                 <div id="no-rek-container" className="flex">
-                  <Image src="/mandiri_logo.png" alt="No Rek" width={100} height={50} />
+                  <Image
+                    src="/mandiri_logo.png"
+                    alt="No Rek"
+                    width={100}
+                    height={50}
+                  />
                   <div>
                     <p>1270011710686</p>
                     <p>A.N. Riyan Suseno</p>
