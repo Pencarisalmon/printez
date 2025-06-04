@@ -277,7 +277,12 @@ const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack, formOnSubmit }: P
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
+                        disabled={(date) => {
+                          const isPast = date < new Date();
+                          const isWeekend =
+                            date.getDay() === 0 || date.getDay() === 6;
+                          return isPast || isWeekend;
+                        }}
                         initialFocus
                       />
                     </PopoverContent>

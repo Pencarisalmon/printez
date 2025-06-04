@@ -32,7 +32,7 @@ import PrintForm from "@/components/ui/printForm";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import axios from "axios";
-
+import toast, { Toaster } from "react-hot-toast";
 const PrintProcess = () => {
   const [step, setStep] = useState(1);
   const [file, setFile] = useState<File | null>(null);
@@ -104,11 +104,9 @@ const PrintProcess = () => {
       const fileId = result.data.id; 
       setPageCount(result.pageCount)
       setPrintType(sessionStorage.getItem("printType") || "")
-
       console.log("File ID:", fileId);
       sessionStorage.setItem("idFiles", fileId);
-      sessionStorage.setItem("pageCount", String(pageCount));
-      alert("File uploaded successfully!");
+      sessionStorage.setItem("pageCount", pageCount);
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("Failed to upload file. Please try again later.");
@@ -187,6 +185,7 @@ const PrintProcess = () => {
   };
   return (
     <div className="mt-4">
+      <Toaster />
       <h1 className="text-2xl font-bold mb-4">PrintEZ</h1>
 
       <div className="flex flex-col items-center">
@@ -279,7 +278,12 @@ const PrintProcess = () => {
                   disabled={isLoading}
                   onClick={async () => {
                     setIsLoading(true);
-                    await uploadFileToServer();
+                    await toast.promise(uploadFileToServer(), {
+                      loading: "Mengunggah file...",
+                      success: "File berhasil diunggah!",
+                      error: "Gagal mengunggah file.",
+                    });
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
                     setIsLoading(false);
                     setStep(2);
                   }}
@@ -299,7 +303,7 @@ const PrintProcess = () => {
               <h2 className="text-2xl font-bold text-gray-900 mb-5">
                 Pembayaran
               </h2>
-
+              
               <div id="detailPesanan" className="mb-5">
                 <h3 className="font-bold text-gray-900">Rincian Harga</h3>
                 <p className="ml-3">
@@ -324,8 +328,9 @@ const PrintProcess = () => {
                   Kembali
                 </Button>
               </div>
-              
+
               {showNoRek && (
+
                 <>
                   <div id="no-rek-container" className="flex mt-7">
                     <Image src="/mandiri_logo.png" alt="No Rek" width={150} height={50} />
