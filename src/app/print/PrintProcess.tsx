@@ -104,9 +104,10 @@ const PrintProcess = () => {
       const fileId = result.data.id; 
       setPageCount(result.pageCount)
       setPrintType(sessionStorage.getItem("printType") || "")
+      
       console.log("File ID:", fileId);
       sessionStorage.setItem("idFiles", fileId);
-      sessionStorage.setItem("pageCount", pageCount);
+      sessionStorage.setItem("pageCount", String(pageCount));
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("Failed to upload file. Please try again later.");
