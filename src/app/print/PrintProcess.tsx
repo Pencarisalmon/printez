@@ -38,6 +38,8 @@ const PrintProcess = () => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showNoRek, setShowNoRek] = useState(false);
+
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
@@ -75,9 +77,11 @@ const PrintProcess = () => {
     try {
       const apiUrl = "/api/v1/upload";
       const { data: result } = await axios.post(apiUrl, formData);
-      const fileId = result.data.id;
+      const fileId = result.data.id; 
+      const pageCount = result.pageCount;
       console.log("File ID:", fileId);
       sessionStorage.setItem("idFiles", fileId);
+      sessionStorage.setItem("pageCount", pageCount);
       alert("File uploaded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -105,6 +109,8 @@ const PrintProcess = () => {
       alert("Terjadi kesalahan saat memproses pembayaran.");
       return;
     }
+
+    return;
     const token = data.midtrans_token;
     const transactionId = data.id;
     console.log("Token Midtrans:", token);
@@ -268,7 +274,20 @@ const PrintProcess = () => {
                 Pembayaran
               </h2>
 
-              <div id="detailPesanan"></div>
+              <div id="detailPesanan">
+                <h3>Rincian Harga</h3>
+                <p>
+                  Print {sessionStorage.getItem("printType")} : Rp.{" "}
+                  {
+                    sessionStorage.getItem("printType") === "colored" ?
+                      1000 * Number(sessionStorage.getItem("pageCount"))
+                      : 1500 * Number(sessionStorage.getItem("pageCount"))
+                  }
+                </p>
+
+                <p>Biaya Admin : Rp. 1000</p>
+                <p>Total Harga : Rp. {" "}{10000 * Number(sessionStorage.getItem("pageCount")) + 1000}</p>
+              </div>
 
               <div className="flex gap-4">
                 <Button
@@ -277,6 +296,7 @@ const PrintProcess = () => {
                     setIsLoading(true);
                     await getPayment();
                     setIsLoading(false);
+                    setShowNoRek(true);
                   }}
                 >
                   Konfirmasi Pembayaran
@@ -286,6 +306,16 @@ const PrintProcess = () => {
                   Kembali
                 </Button>
               </div>
+              
+              {showNoRek && (
+                <div id="no-rek-container" className="flex">
+                  <Image src="/mandiri_logo.png" alt="No Rek" width={100} height={50} />
+                  <div>
+                    <p>1270011710686</p>
+                    <p>A.N. Riyan Suseno</p>
+                  </div>
+                </div>
+              )}
 
               <div
                 id="snap-embed-container"

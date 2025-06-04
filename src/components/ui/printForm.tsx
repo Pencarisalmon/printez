@@ -94,6 +94,7 @@ const PrintForm: React.FC<PrintFormProps> = ({ onNext, onBack }) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     const { username, phoneNumber, type, place, dob, time } = values;
+    sessionStorage.setItem("printType", type);
     try {
       const { data } = await axios.post(apiUrl, {
         username,
