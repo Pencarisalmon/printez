@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface MidtransSnapResult {
   transaction_status?: string;
@@ -39,7 +39,30 @@ const PrintProcess = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showNoRek, setShowNoRek] = useState(false);
-  const [pageCount, setPageCount] = useState(0);
+  const [totalHarga, setTotalHarga] = useState(0)
+  const [hargaPrint, setHargaPrint] = useState(0)
+  const [pageCount, setPageCount] = useState(0)
+  const [printType, setPrintType] = useState<string>("")
+
+  useEffect(() => {
+  let harga = 0;
+
+  if (printType === "Berwarna") {
+    harga = pageCount * 1500;
+  } else if (printType === "Hitam-putih") {
+    harga = pageCount * 1000;
+  }
+
+  setHargaPrint(harga);
+  }, [pageCount, printType]);
+
+  useEffect(() => {
+    setTotalHarga(hargaPrint + 1000); 
+  }, [hargaPrint]);
+
+  const handleFormSubmit = (data: string) => {
+    setPrintType(data);
+  };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -79,10 +102,12 @@ const PrintProcess = () => {
       const apiUrl = "/api/v1/upload";
       const { data: result } = await axios.post(apiUrl, formData);
       const fileId = result.data.id; 
-      const pageCount = result.pageCount;
+      setPageCount(result.pageCount)
+      setPrintType(sessionStorage.getItem("printType") || "")
+
       console.log("File ID:", fileId);
       sessionStorage.setItem("idFiles", fileId);
-      sessionStorage.setItem("pageCount", pageCount);
+      sessionStorage.setItem("pageCount", String(pageCount));
       alert("File uploaded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -266,7 +291,7 @@ const PrintProcess = () => {
           )}
 
           {step === 2 && (
-            <PrintForm onNext={() => setStep(3)} onBack={() => setStep(1)} />
+            <PrintForm onNext={() => setStep(3)} onBack={() => setStep(1)} formOnSubmit={handleFormSubmit}/>
           )}
 
           {step === 3 && (
@@ -278,16 +303,9 @@ const PrintProcess = () => {
               <div id="detailPesanan" className="mb-5">
                 <h3 className="font-bold text-gray-900">Rincian Harga</h3>
                 <p className="ml-3">
-                  Print {sessionStorage.getItem("printType")} : Rp.{" "}
-                  {
-                    sessionStorage.getItem("printType") === "Hitam-putih" ?
-                      1000 * Number(sessionStorage.getItem("pageCount"))
-                      : 1500 * Number(sessionStorage.getItem("pageCount"))
-                  }
-                </p>
-
+                  Print {sessionStorage.getItem("printType")} : Rp.{" "}{hargaPrint}</p>
                 <p className="ml-3">Biaya Admin : Rp. 1000</p>
-                <p className="ml-3">Total Harga : Rp. {" "}{1000 * Number(sessionStorage.getItem("pageCount")) + 1000}</p>
+                <p className="ml-3">Total Harga : Rp. {" "}{totalHarga}</p>
               </div>
 
               <div className="flex gap-4">
